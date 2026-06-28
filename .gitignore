@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# Environment
+.env
+
+# Built data artifact (distributed separately — see README)
+data/meteobeguda.sqlite
+*.sqlite
+
+# Langfuse / docker local state
+.langfuse/
