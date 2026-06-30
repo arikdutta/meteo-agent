@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
 import sqlite3
 import tempfile
 import urllib.error
@@ -44,11 +45,11 @@ def read_definition(connection: sqlite3.Connection, name: str) -> str:
 def build(source_files: list[Path], output_path: Path) -> None:
     output_path.unlink(missing_ok=True)
 
-    with sqlite3.connect(source_files[0]) as template:
+    with contextlib.closing(sqlite3.connect(source_files[0])) as template:
         table_ddl = read_definition(template, EVENTS_TABLE)
         view_ddls = {view: read_definition(template, view) for view in VIEWS}
 
-    with sqlite3.connect(output_path) as out:
+    with contextlib.closing(sqlite3.connect(output_path)) as out:
         out.execute(table_ddl)
         for source in source_files:
             out.execute("ATTACH DATABASE ? AS src", (str(source),))

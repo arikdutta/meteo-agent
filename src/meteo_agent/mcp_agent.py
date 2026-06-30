@@ -21,15 +21,15 @@ SERVER_CONFIG = {
 
 
 async def load_mcp_tools():
-    # TODO(checkpoint 05): connect with MultiServerMCPClient(SERVER_CONFIG) and
-    # return its tools (already LangChain-compatible).
-    raise NotImplementedError("implement load_mcp_tools")
-
+    client = MultiServerMCPClient(SERVER_CONFIG)
+    return await client.get_tools()
 
 async def run_agent(question: str, model=None, config=None) -> str:
-    # TODO(checkpoint 05): load the MCP tools, build the SAME graph from
-    # checkpoint 04 with those tools, and ainvoke it. Return the final content.
-    raise NotImplementedError("implement run_agent")
+    tools = await load_mcp_tools()
+    agent = build_agent(model=model, tools=tools)
+    initial = {"messages": [SystemMessage(SYSTEM_PROMPT), HumanMessage(question)]}
+    result = await agent.ainvoke(initial, config=config)
+    return result["messages"][-1].content
 
 
 def main() -> None:
@@ -38,6 +38,7 @@ def main() -> None:
         raise SystemExit(1)
     question = " ".join(sys.argv[1:])
     print(asyncio.run(run_agent(question)))
+
 
 
 if __name__ == "__main__":

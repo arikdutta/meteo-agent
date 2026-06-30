@@ -40,6 +40,6 @@ def openai_client():
 def chat_model(**overrides):
     from langchain_openai import ChatOpenAI
 
-    settings = dict(model=model_name(), base_url=base_url(), api_key=api_key(), temperature=0)
+    settings = dict(model=model_name(), base_url=base_url(), api_key=api_key())
     settings.update(overrides)
     return ChatOpenAI(**settings)
