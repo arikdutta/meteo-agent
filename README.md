@@ -63,7 +63,6 @@ not a rewrite.
 - A reliable tool-calling model matters for the live demo. `qwen2.5:7b` works
   locally; `qwen2.5:72b` on Ollama Cloud is steadier on stage. Avoid `phi3:mini`
   (poor tool-calling). Any OpenAI-compatible endpoint works — see guide 01.
-- Slides: `slides/meteo-agent.md` (presenterm).
 
 ## Prerequisites
 
